@@ -31,7 +31,7 @@ export let PostExcerpt = ({postId}) => {
     )
 }
 
-// PostExcerpt = React.memo(PostfffffExcerpt);
+// PostExcerpt = React.memo(PostExcerpt);
 
 export const PostsList = () => {
     const dispatch = useDispatch();
