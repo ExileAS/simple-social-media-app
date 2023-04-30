@@ -61,6 +61,7 @@ export const PostsList = () => {
     return (
         <section className="posts-list">
             <SearchBar />
+            <Link to='/posts/addPost'><button>Add a New Post</button></Link>
             <br />
             <br />
             <h2>All Posts:</h2>
