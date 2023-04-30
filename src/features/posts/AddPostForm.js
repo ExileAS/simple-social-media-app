@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { addNewPost } from "./PostsSlice";
 import { selectAllUsers } from "../users/UsersSlice";
+import { useHistory } from "react-router-dom";
 
 export const AddPostForm = () => {
   const [title, setTitle] = useState('');
@@ -11,6 +12,7 @@ export const AddPostForm = () => {
   const [addRequestStatus, setAddRequestStatus] = useState('idle');
   const dispatch = useDispatch();
   const users = useSelector(selectAllUsers);
+  const history = useHistory();
 
 
   const canSave = [title, content, userId].every(Boolean) && addRequestStatus === 'idle';
@@ -27,6 +29,7 @@ export const AddPostForm = () => {
           console.error('Failed to save the post: ', err)
         } finally {
           setAddRequestStatus('idle');
+          history.push('/');
         }
       } 
       

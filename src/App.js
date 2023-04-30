@@ -8,12 +8,12 @@ import {
 
 import { Navbar } from './app/Navbar'
 import { PostsList } from './features/posts/PostsList'
-import { AddPostForm } from './features/posts/AddPostForm'
 import { SinglePostPage } from './features/posts/SinglePostPage'
 import { EditPostForm } from './features/posts/EditPostForm'
 import { UsersList } from './features/users/UsersList'
 import { UserPage } from './features/users/UserPage'
 import { NotificationsList } from './features/notifications/NotificationsList'
+import { AddPostForm } from './features/posts/AddPostForm'
 
 function App() {
   return (
@@ -26,10 +26,14 @@ function App() {
             path="/"
             render={() => (
               <React.Fragment>
-                <AddPostForm />
                 <PostsList />
               </React.Fragment>
             )}
+          />
+          <Route 
+            exact
+            path='/posts/addPost'
+            component={AddPostForm}
           />
           <Route
            exact
