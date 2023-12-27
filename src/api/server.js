@@ -12,15 +12,8 @@ const NUM_USERS = 3
 const POSTS_PER_USER = 3
 const RECENT_NOTIFICATIONS_DAYS = 7
 
-// Add an extra delay to all endpoints, so loading spinners show up.
 const ARTIFICIAL_DELAY_MS = 2000
 
-/* RNG setup */
-
-// Set up a seeded random number generator, so that we get
-// a consistent set of users / entries each time the page loads.
-// This can be reset by deleting this localStorage value,
-// or turned off by setting `useSeededRNG` to false.
 let useSeededRNG = true
 
 let rng = seedrandom()
@@ -52,8 +45,6 @@ const randomFromArray = (array) => {
   const index = getRandomInt(0, array.length - 1)
   return array[index]
 }
-
-/* MSW Data Model Setup */
 
 export const db = factory({
   user: {
@@ -112,7 +103,6 @@ const createPostData = (user) => {
   }
 }
 
-// Create an initial set of users and posts
 for (let i = 0; i < NUM_USERS; i++) {
   const author = db.user.create(createUserData())
 
@@ -126,8 +116,6 @@ const serializePost = (post) => ({
   ...post,
   user: post.user.id,
 })
-
-/* MSW REST API Handlers */
 
 export const handlers = [
   rest.get('/fakeApi/posts', function (req, res, ctx) {
@@ -221,9 +209,6 @@ export const handlers = [
 ]
 
 export const worker = setupWorker(...handlers)
-// worker.printHandlers() // Optional: nice for debugging to see all available route handlers that will be intercepted
-
-/* Mock Websocket Setup */
 
 const socketServer = new MockSocketServer('ws://localhost')
 
@@ -233,8 +218,6 @@ const sendMessage = (socket, obj) => {
   socket.send(JSON.stringify(obj))
 }
 
-// Allow our UI to fake the server pushing out some notifications over the websocket,
-// as if other users were interacting with the system.
 const sendRandomNotifications = (socket, since) => {
   const numNotifications = getRandomInt(1, 5)
 
@@ -265,8 +248,6 @@ socketServer.on('connection', (socket) => {
   })
 })
 
-/* Random Notifications Generation */
-
 const notificationTemplates = [
   'poked you',
   'says hi!',
@@ -285,8 +266,6 @@ function generateRandomNotifications(since, numNotifications, db) {
     pastDate.setMinutes(pastDate.getMinutes() - 15)
   }
 
-  // Create N random notifications. We won't bother saving these
-  // in the DB - just generate a new batch and return them.
   const notifications = [...Array(numNotifications)].map(() => {
     const user = randomFromArray(db.user.getAll())
     const template = randomFromArray(notificationTemplates)
