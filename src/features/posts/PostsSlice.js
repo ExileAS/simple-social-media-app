@@ -100,7 +100,6 @@ export const {
 } = postsAdapter.getSelectors((state) => state.posts)
 
 export const selectPostsByUser = createSelector(
-  // takes two arguments 1. one or multiple input selector functions, 2. an output selector function.
   [selectAllPosts, (state, userId) => userId],
   (allPosts, userId) => allPosts.filter((post) => post.user === userId)
 )
